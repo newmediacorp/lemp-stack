@@ -35,6 +35,10 @@ $ docker run --restart=always -d -p 80:80 -v /var/run/docker.sock:/tmp/docker.so
 
 ### 3. Modify docker-compose.yml
 Replace the <project-name> placeholder in docker-compose.yml with your actual project name.
+
 Replace the <mysql-host-port> placeholder in docker-compose.yml with the port you'd want mysql to be accessible on your host.
+
 ## Running the project
-Add your project files in the root directory and run `docker-compose up -d`. Access the project at `http://<project-name>.local` URL.
+Add your project files in the root directory and run `docker-compose up -d`. 
+
+Access the project at `http://<project-name>.local` URL.
