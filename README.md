@@ -4,7 +4,7 @@ LEMP stack for PHP development environment with docker-compose
 ## Pre-requsites
 
 ### 1. Remap docker user namespace
-If your development environment is Linux-based, to avoid permission issues with docker volumes you need to modify the `/etc/subuid` and `/etc/subgid` to contain:
+If your host OS is Linux-based, to avoid permission issues with docker volumes you need to modify the `/etc/subuid` and `/etc/subgid` to contain:
 ```
 <your-username>:1000:1
 <your-username>:100000:65535
@@ -32,5 +32,9 @@ To be able to access the project via `http://<project-name>.local` URL, we need 
 ```
 $ docker run --restart=always -d -p 80:80 -v /var/run/docker.sock:/tmp/docker.sock:ro jwilder/nginx-proxy
 ```
+
+### 3. Modify docker-compose.yml
+Replace the <project-name> placeholder in docker-compose.yml with your actual project name.
+Replace the <mysql-host-port> placeholder in docker-compose.yml with the port you'd want mysql to be accessible on your host.
 ## Running the project
 Add your project files in the root directory and run `docker-compose up -d`. Access the project at `http://<project-name>.local` URL.
