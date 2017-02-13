@@ -1,0 +1,43 @@
+version: '2'
+services:
+  storage:
+    build: ./docker/storage
+    entrypoint: /bin/true
+    volumes:
+      - ./:/var/www/html
+    network_mode: "bridge"
+
+  phpfpm:
+    build: ./docker/php
+    links:
+      - mysql:mysql
+    expose:
+      - "9000"
+    volumes:
+      - ./:/var/www/html
+    entrypoint: dockerize -wait tcp://mysql:3306 -timeout 120s
+    command: php-fpm
+    network_mode: "bridge"
+
+  nginx:
+    build: ./docker/nginx
+    links:
+      - phpfpm:phpfpm
+    expose:
+      - "80"
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+    environment:
+      VIRTUAL_HOST: <project-name>.local
+    network_mode: "bridge"
+
+  mysql:
+    build: ./docker/mysql
+    ports:
+      - "<host-port>:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: <project-name>
+      MYSQL_DATABASE: <project-name>
+      MYSQL_USER: <project-name>
+      MYSQL_PASSWORD: <project-name>
+    network_mode: "bridge"
