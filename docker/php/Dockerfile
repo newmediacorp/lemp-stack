@@ -3,7 +3,9 @@ FROM php:7-fpm
 # Install modules
 RUN apt-get update && apt-get install -y \
         libmcrypt-dev \
+        zlib1g-dev \
         curl \
+        wget \
         git
 
 RUN docker-php-ext-install bcmath
@@ -13,9 +15,7 @@ RUN docker-php-ext-install pdo_mysql
 RUN docker-php-ext-install tokenizer
 RUN docker-php-ext-install mcrypt
 RUN docker-php-ext-install pcntl
-
-RUN apt-get install -y zlib1g-dev \
-    && docker-php-ext-install zip
+RUN docker-php-ext-install zip
 
 # Possible values for docker-php-ext-install:
 # bcmath bz2 calendar ctype curl dba dom enchant exif fileinfo filter ftp gd
@@ -25,14 +25,15 @@ RUN apt-get install -y zlib1g-dev \
 # reflection session shmop simplexml snmp soap sockets spl standard sybase_ct sysvmsg
 # sysvsem sysvshm tidy tokenizer wddx xml xmlreader xmlrpc xmlwriter xsl zip
 
+# Install composer
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 
-ENV TERM xterm
-
+# Install dockerize. Needed to make php container wait for services it depends on.
 # Using wget instead of ADD command to utilize docker cache
-RUN apt-get install -y wget
 ENV DOCKERIZE_VERSION v0.3.0
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+    
+ENV TERM xterm
