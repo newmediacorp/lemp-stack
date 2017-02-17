@@ -1,14 +1,14 @@
 version: '2'
 services:
   storage:
-    build: ./docker/storage
+    build: ./docker/development/storage
     entrypoint: /bin/true
     volumes:
       - ./:/var/www/html
     network_mode: "bridge"
 
   phpfpm:
-    build: ./docker/php
+    build: ./docker/development/php
     links:
       - mysql:mysql
     expose:
@@ -20,19 +20,19 @@ services:
     network_mode: "bridge"
 
   nginx:
-    build: ./docker/nginx
+    build: ./docker/development/nginx
     links:
       - phpfpm:phpfpm
     expose:
       - "80"
     volumes:
-      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/development/nginx/nginx.conf:/etc/nginx/nginx.conf
     environment:
       VIRTUAL_HOST: <project-name>.local
     network_mode: "bridge"
 
   mysql:
-    build: ./docker/mysql
+    build: ./docker/development/mysql
     ports:
       - "<mysql-host-port>:3306"
     environment:
