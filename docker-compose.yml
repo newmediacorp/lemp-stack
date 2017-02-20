@@ -27,6 +27,8 @@ services:
       - "80"
     volumes:
       - ./docker/development/nginx/nginx.conf:/etc/nginx/nginx.conf
+    volumes_from:
+      - storage
     environment:
       VIRTUAL_HOST: <project-name>.local
     network_mode: "bridge"
