@@ -13,8 +13,8 @@ services:
       - mysql:mysql
     expose:
       - "9000"
-    volumes:
-      - ./:/var/www/html
+    volumes_from:
+      - storage
     entrypoint: dockerize -wait tcp://mysql:3306 -timeout 120s
     command: php-fpm
     network_mode: "bridge"

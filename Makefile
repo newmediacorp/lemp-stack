@@ -1,14 +1,14 @@
 .PHONY: start
-
+ 
 start:
 	docker-compose up -d
 
 stop:
 	docker-compose stop
-    
+
 list:
-    docker-compose ps
-    
+	docker-compose ps
+
 shell:
 	docker-compose exec phpfpm bash
 
