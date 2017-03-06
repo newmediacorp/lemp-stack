@@ -30,7 +30,7 @@ https://blog.yadutaf.fr/2016/04/14/docker-for-your-users-introducing-user-namesp
 ### 2. Run a local nginx proxy
 To be able to access one or multiple projects via `http://<project-name>.local` URL, we need to run a local nginx proxy like:
 ```
-$ docker run --restart=always -d -p 80:80 -v /var/run/docker.sock:/tmp/docker.sock:ro jwilder/nginx-proxy
+$ docker run --restart=always --userns="host" -d -p 80:80 -v /var/run/docker.sock:/tmp/docker.sock:ro jwilder/nginx-proxy
 ```
 *Linux hosts:* You need to add the `--userns=host` param to the above command, otherwise the nginx proxy will not work. 
 
