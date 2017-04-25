@@ -37,3 +37,6 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
     && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
     
 ENV TERM xterm
+
+# This directive is used to prevent permission issues when using shared volumes. Do not use in production!
+RUN adduser www-data root
